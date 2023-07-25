@@ -9,7 +9,7 @@
 #define SCREEN_HEIGHT 720
 
 std::vector<Object*> entities;
-bool debug = false;
+bool debug;
 
 void create(Object* o)
 {
