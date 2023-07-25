@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include "state.hpp"
 
+#pragma once
+
 class GameWorld : State
 {
     public:
