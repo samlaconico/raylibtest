@@ -5,7 +5,7 @@
 class Player : public Object
 {
     public:
-    Player(int x, int y);
+    Player(int x, int y, int layer);
     void update();
     void draw();
     private:   

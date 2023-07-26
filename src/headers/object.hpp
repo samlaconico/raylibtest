@@ -16,6 +16,7 @@ class Object
     Object();
     int x;
     int y;
+    int layer;
     Texture2D spritesheet;
     Texture2D spriteTexture;
     float spriteSize;

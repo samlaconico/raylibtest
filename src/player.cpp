@@ -11,11 +11,11 @@ int sprintSpeed;
 float deltaTime = GetFrameTime();
 Vector2 velocity;
 
-Player::Player(int x, int y)
+Player::Player(int x, int y, int layer)
 {
     this->x = x;
     this->y = y;
-
+    this->layer = layer;
     Player::init();
 }
 
@@ -52,7 +52,6 @@ void Player::init()
 
 void Player::update()
 {
-    std::cout << moving << std::endl;
     Vector2Normalize(velocity);
     
     x += velocity.x;
