@@ -27,7 +27,6 @@ void Player::init()
     spriteSizeMultiplier = 2;
     objectSize = spriteSize * spriteSizeMultiplier;
 
-    int stand[] = {1};
     int walkLeft[] = {12,13,14,13};
     int walkRight[] = {24,25,26,25};
     int walkUp[] = {36,37,38,37};
@@ -116,10 +115,6 @@ void Player::input()
 
 void Player::draw()
 {
-    //DrawTexturePro(spriteTexture, {96, 0, spriteSize, spriteSize}, {0, 0, spriteSize*2, spriteSize*2}, {(float)-x,(float)-y}, 0.0f, WHITE);
-    //Player::drawHitbox();
-    //DrawText(a.c_str(), x + 3, y - 10, 12, BLACK);
-
     if (moving == true)
     {
         if (direction == "right")

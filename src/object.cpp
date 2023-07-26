@@ -26,31 +26,28 @@ void Object::animationUpdater()
     {
         frameCounter = 0;
         currentFrame++;
-        //std::cout << (float)std::floor(animArray[currentFrame]/(spriteTexture.width/spriteSize)) << std::endl;
     }
 
-    if (currentFrame >= frameAmount) currentFrame = 0;
+    if (currentFrame >= frameAmount) 
+        currentFrame = 0;
 
     frameRec.x = (float)((animArray[currentFrame])%(spriteTexture.width/(int)spriteSize))*spriteSize;
     frameRec.y = (float)std::floor(animArray[currentFrame]/(spriteTexture.width/spriteSize)) * spriteSize;
 
-    //std::cout << currentFrame << std::endl;
 }
 
 void Object::draw()
 {
     DrawTexturePro(spriteTexture, frameRec, {0, 0, spriteSize * spriteSizeMultiplier, spriteSize * spriteSizeMultiplier}, {(float)-x, (float)-y}, 0.0f, WHITE);
-    //DrawRectangle(x, y, 32, 32, BLUE);
 }
 
 void Object::addAnimation(int frames[], int speed, int frameCount, std::string name)
 {
     struct animation a;
+
     for (int i = 0; i <= frameCount; i++)
     {
         a.frames[i] = frames[i];
-
-        //std::cout << frames[i] << std::endl;;
     }
 
     a.speed = speed;
@@ -67,25 +64,14 @@ void Object::play(std::string name)
 
     if (it != animationNames.end()) 
     {
-      
-        // calculating the index
-        // of K
         index = it - animationNames.begin();
-        
     }
     
-    //std::cout << "playing existing anim named " << animationNames[index] << std::endl;
     playAnimation(animationList[index]);
-        
-    // if (std::find(animationNames.begin(), animationNames.end(), name) != animationNames.end())
-    // {
-    //     std::cout << "ASOIHDOIASHDOASHODHASI";
-    // }
 }
 
 void Object::playAnimation(struct animation aList)
 {
-    //std::cout << "playing something with first frame " << aList.frames[0] << std::endl;
     if (frameAmount != aList.frameCount)
         frameAmount = aList.frameCount;
 
@@ -97,12 +83,9 @@ void Object::playAnimation(struct animation aList)
         if (animArray[i] != aList.frames[i])
         {
             animArray[i] = aList.frames[i];
-            //std::cout << animArray[i] << std::endl;
         }
             
     }
-
-    //DrawRectangle(x, y, 32, 32, RED);
 }
 
 void Object::setFrameSpeedMultiplier(int multiplier)

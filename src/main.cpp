@@ -51,7 +51,7 @@ int main(void)
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "TOUHOU GAME");
     SetTargetFPS(60); 
 
-    Player player = Player(100, 100, 2);
+    Player player = Player(100, 100, 0);
     create(&player);
 
     Camera2D camera = Camera2D();
@@ -75,7 +75,7 @@ int main(void)
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             create(new Player(((GetMouseX()-camera.offset.x)/camera.zoom) + camera.target.x - 32, 
-                            (((GetMouseY()-camera.offset.y))/camera.zoom) + camera.target.y - 32, 0));
+                            (((GetMouseY()-camera.offset.y))/camera.zoom) + camera.target.y - 32, 1));
         }
 
         if (IsKeyPressed(KEY_D))
@@ -122,8 +122,6 @@ int main(void)
 
         DrawText("TO BE MADE", 100, 200, 100, GRAY);
         DrawText("TO BE MADE", 100, 400, 100, GRAY);
-       
-        
 
         EndMode2D();
         EndDrawing();
