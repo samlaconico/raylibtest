@@ -16,13 +16,13 @@ int layers[] = {0,1,2};
 
 World::World()
 {
-    Player newPlayer = Player(100, 100, 1);
-    playerPointer = &newPlayer;
-
-    create(playerPointer);
+    //Player newPlayer = Player(100, 100, 1);
+    //playerPointer = &newPlayer;
+    //createdPlayer = Player(100,100,1);
+    //create(playerPointer);
 
     newCamera = Camera2D();
-    newCamera.target = {(float)newPlayer.x, (float)newPlayer.y};
+    //newCamera.target = {(float)newPlayer.x, (float)newPlayer.y};
     newCamera.zoom = 1;
     newCamera.offset = (Vector2){ SCREEN_WIDTH/2.0f, SCREEN_HEIGHT/2.0f};
     newCamera.rotation = 0.0f;
@@ -63,6 +63,8 @@ void World::updateCamera(Player* player, Camera2D* camera)
 
 void World::update()
 {
+    createdPlayer.update();
+
     for (int i = 0; i < entityList.size(); i++)
     {
         entityList[i]->update();
@@ -82,6 +84,8 @@ void World::draw()
     DrawText("TO BE MADE", 100, 100, 100, GRAY);
     DrawText("TO BE MADE", 100, 300, 100, GRAY);
     DrawText("TO BE MADE", 100, 500, 100, GRAY);
+
+    createdPlayer.draw();
 
     for (int i = 0; i < sizeof(layers)/sizeof(int); i++)
     {

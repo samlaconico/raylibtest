@@ -6,8 +6,8 @@ class Player : public Object
 {
     public:
     Player(int x, int y, int layer);
-    virtual void update();
-    virtual void draw();
+    void update();
+    void draw();
     private:   
     void input();
     void init();

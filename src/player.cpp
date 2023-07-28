@@ -115,7 +115,7 @@ void Player::input()
     }
 }
 
-void Player::draw()
+void Player::draw() 
 {
     if (moving == true)
     {
@@ -167,9 +167,7 @@ void Player::draw()
 }
 
 void Player::drawDebug()
-{
-    
-    
+{   
     Object::drawDebug();
 }
 
