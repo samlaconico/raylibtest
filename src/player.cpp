@@ -53,6 +53,8 @@ void Player::update()
 {
     Vector2Normalize(velocity);
     
+    std::cout << direction << std::endl;
+
     x += velocity.x;
     y += velocity.y;
 

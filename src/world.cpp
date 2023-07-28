@@ -3,7 +3,6 @@
 #include "headers/player.hpp"
 #include "headers/object.hpp"
 #include <vector>
-#include <iostream>
 #include "headers/world.hpp"
 
 #define SCREEN_WIDTH 1280
@@ -20,7 +19,7 @@ World::World()
     Player newPlayer = Player(100, 100, 1);
     playerPointer = &newPlayer;
 
-    create(&newPlayer);
+    create(playerPointer);
 
     newCamera = Camera2D();
     newCamera.target = {(float)newPlayer.x, (float)newPlayer.y};
@@ -64,8 +63,6 @@ void World::updateCamera(Player* player, Camera2D* camera)
 
 void World::update()
 {
-    updateCamera(playerPointer, &newCamera);
-
     for (int i = 0; i < entityList.size(); i++)
     {
         entityList[i]->update();
@@ -80,9 +77,7 @@ void World::update()
 
 void World::draw()
 {
-    ClearBackground(Color{228,241,254,255});
     BeginMode2D(newCamera);
-
 
     DrawText("TO BE MADE", 100, 100, 100, GRAY);
     DrawText("TO BE MADE", 100, 300, 100, GRAY);
