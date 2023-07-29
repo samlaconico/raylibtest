@@ -43,6 +43,8 @@ void World::destroy(Object *o)
     {
         if (entityList[i] ==  o)
         {
+            o->unload();
+            free(entityList[i]);
             entityList.erase(entityList.begin() + i);
         }
     }

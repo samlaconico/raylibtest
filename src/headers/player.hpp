@@ -1,6 +1,6 @@
-#include "object.hpp"
-
 #pragma once
+
+#include "object.hpp"
 
 class Player : public Object
 {

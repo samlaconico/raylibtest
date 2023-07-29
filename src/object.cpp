@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "raymath.h"
+#include "headers/world.hpp"
 
 Object::Object()
 {
@@ -128,4 +129,9 @@ void Object::drawDebug()
 void Object::setTag(std::string string)
 {
     tag = string;
+}
+
+void Object::unload()
+{
+    UnloadTexture(spritesheet);
 }

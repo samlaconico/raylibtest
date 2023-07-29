@@ -37,6 +37,7 @@ class Object
     virtual void update();
     virtual void draw();
     virtual void drawDebug();
+    virtual void unload();
     void addAnimation(int frames[], int speed, int frameCount, std::string name );
     void play(std::string name);
     void setFrameSpeedMultiplier(int multiplier);
