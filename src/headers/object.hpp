@@ -10,6 +10,11 @@ struct animation {
     int frameCount;
 };
 
+struct hitbox {
+    Vector2 size;
+    Vector2 offset;
+};
+
 class Object
 {
     public: 
@@ -22,6 +27,12 @@ class Object
     float spriteSize;
     float spriteSizeMultiplier = 1;
     float objectSize;
+    struct hitbox hitbox;
+    bool collide;
+    bool active;
+
+    std::string tag;
+    void setTag(std::string);
 
     virtual void update();
     virtual void draw();
@@ -46,4 +57,5 @@ class Object
 
     void animationUpdater();
     void playAnimation(struct animation aList);
+    
 };

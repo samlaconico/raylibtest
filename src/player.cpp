@@ -6,16 +6,15 @@
 Texture2D sprites;
 std::string a = "hello again";
 std::string direction;
-bool moving;
 int sprintSpeed;
 float deltaTime = GetFrameTime();
-Vector2 velocity;
 
 Player::Player(int x, int y, int layer)
 {
     this->x = x;
     this->y = y;
     this->layer = layer;
+    active = true;
     Player::init();
 }
 
@@ -47,24 +46,34 @@ void Player::init()
     addAnimation(idleUp, 0, 1, "idleUp");
     addAnimation(idleDown, 0, 1, "idleDown");
     
+    hitbox.size = {32, 32};
+    hitbox.offset = {16, 16};
+    tag = "npc";
 }
 
 void Player::update()
 {
     Vector2Normalize(velocity);
     
-    std::cout << direction << std::endl;
-
     x += velocity.x;
     y += velocity.y;
 
-    Player::input();
-    Object::update();
+
+    if (tag == "player")
+    {
+        input();
+        Object::update();
+    }
+    else
+    {
+        
+    }
+    
+    
 }
 
 void Player::input()
-{
-    
+{   
     if (IsKeyDown(KEY_SPACE))
     {
         setFrameSpeedMultiplier(3);

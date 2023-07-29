@@ -3,6 +3,7 @@
 #include "array"
 #include <iostream>
 #include <vector>
+#include "raymath.h"
 
 Object::Object()
 {
@@ -95,12 +96,36 @@ void Object::setFrameSpeedMultiplier(int multiplier)
 
 void Object::drawDebug()
 {
-    DrawLineEx({(float)x, (float)y}, {(float)x + objectSize, (float)y}, 3.0f, RED);
-    DrawLineEx({(float)x, (float)y}, {(float)x, (float)y + objectSize}, 3.0f, RED);
-    DrawLineEx({(float)x + objectSize, (float)y}, {(float)x + objectSize, (float)y + objectSize}, 3.0f, RED);
-    DrawLineEx({(float)x, (float)y + objectSize}, {(float)x + objectSize, (float)y + objectSize}, 3.0f, RED);
+    // DrawLineEx({(float)x, (float)y}, {(float)x + objectSize, (float)y}, 3.0f, RED);
+    // DrawLineEx({(float)x, (float)y}, {(float)x, (float)y + objectSize}, 3.0f, RED);
+    // DrawLineEx({(float)x + objectSize, (float)y}, {(float)x + objectSize, (float)y + objectSize}, 3.0f, RED);
+    // DrawLineEx({(float)x, (float)y + objectSize}, {(float)x + objectSize, (float)y + objectSize}, 3.0f, RED);
+
+    //DrawRectangleV(Vector2Add({(float)x, (float)y}, hitbox.offset), hitbox.size, RED);
+
+    if (collide)
+    {
+        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y}, 3.0f, RED);
+        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x, (float)y + hitbox.offset.y + hitbox.size.y}, 3.0f, RED);
+        DrawLineEx({(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y + hitbox.size.y}, 3.0f, RED);
+        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y + hitbox.size.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y + hitbox.size.y}, 3.0f, RED);
+    }
+    else
+    {
+        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y}, 3.0f, GREEN);
+        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x, (float)y + hitbox.offset.y + hitbox.size.y}, 3.0f, GREEN);
+        DrawLineEx({(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y + hitbox.size.y}, 3.0f, GREEN);
+        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y + hitbox.size.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y + hitbox.size.y}, 3.0f, GREEN);
+    }
 
     std::string debugPosition = "x:" + std::to_string(x) + " " + "y:" + std::to_string(y);
-
+    std::string debugTag = "tag: " + tag;
+    
+    DrawText(tag.c_str(), x, y + objectSize + 4, 12, BLUE);
     DrawText(debugPosition.c_str(), x, y - 15, 12, BLACK);
+}
+
+void Object::setTag(std::string string)
+{
+    tag = string;
 }

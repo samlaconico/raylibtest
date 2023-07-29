@@ -10,7 +10,6 @@
 #define SCREEN_HEIGHT 720
 
 std::vector<World*> worlds;
-bool debug;
 
 int main(void)
 {

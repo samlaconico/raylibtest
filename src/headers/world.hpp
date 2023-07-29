@@ -11,6 +11,10 @@ class World
 
     private:
     void create(Object* o);
-    void updateCamera(Player* player, Camera2D* camera);
-    Player createdPlayer = Player(100,100,1);
+    void updateCamera(Object* player, Camera2D* camera);
+    void destroy(Object* o);
+    bool collide(Vector2 position, Object* o);
+    int getMouseX();
+    int getMouseY();
+    //Player createdPlayer = Player(100,100,1);
 };
