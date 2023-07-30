@@ -24,6 +24,7 @@ World::World()
     
     create(playerPointer);
     playerPointer->setTag("player");
+    playerPointer->world = this;
 
     newCamera = Camera2D();
     newCamera.target = {(float)playerPointer->x, (float)playerPointer->y};
@@ -107,6 +108,26 @@ bool World::collide(Vector2 position, Object* o)
     {
         return false;
     }
+}
+
+bool World::hit(std::string tag, Object* o)
+{
+    for (int i = 0; i < entityList.size(); i++)
+    {
+        if (entityList[i] == o)
+        {
+            
+        }
+        else
+        {
+            if (CheckCollisionRecs(entityList[i]->hitboxRec, o->hitboxRec) && entityList[i]->tag == tag)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 void World::update()

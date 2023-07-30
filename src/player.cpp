@@ -5,7 +5,6 @@
 
 Texture2D sprites;
 std::string a = "hello again";
-std::string direction;
 int sprintSpeed;
 float deltaTime = GetFrameTime();
 
@@ -45,10 +44,31 @@ void Player::init()
     addAnimation(idleRight, 0, 1, "idleRight");
     addAnimation(idleUp, 0, 1, "idleUp");
     addAnimation(idleDown, 0, 1, "idleDown");
+    play("idleDown");
     
-    hitbox.size = {32, 32};
-    hitbox.offset = {16, 16};
-    tag = "npc";
+    hitbox.size = {64, 64};
+    hitbox.offset = {0, 0};
+    
+    int rand = GetRandomValue(1, 4);
+
+    switch(rand)
+    {
+        case 1:
+        tag = "villager";
+        break;
+
+        case 2:
+        tag = "monster";
+        break;
+        
+        case 3:
+        tag = "party";
+        break;
+
+        case 4:
+        tag = "npc";
+        break;
+    }
 }
 
 void Player::update()
@@ -59,17 +79,24 @@ void Player::update()
     y += velocity.y;
 
 
+    hitboxRec = {(x + hitbox.offset.x), (y + hitbox.offset.y), hitbox.size.x,hitbox.size.y};
+    
     if (tag == "player")
     {
+        if (world->hit("monster", this))
+        {
+            std::cout << "hit by monster" << std::endl;
+        }
+
         input();
-        Object::update();
+        
     }
     else
     {
         
     }
-    
-    
+
+    Object::update();
 }
 
 void Player::input()

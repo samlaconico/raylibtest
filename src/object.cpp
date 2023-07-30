@@ -4,7 +4,6 @@
 #include <iostream>
 #include <vector>
 #include "raymath.h"
-#include "headers/world.hpp"
 
 Object::Object()
 {

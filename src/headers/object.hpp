@@ -30,6 +30,8 @@ class Object
     struct hitbox hitbox;
     bool collide;
     bool active;
+    Rectangle hitboxRec;
+    std::string direction;
 
     std::string tag;
     void setTag(std::string);

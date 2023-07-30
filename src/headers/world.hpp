@@ -10,6 +10,7 @@ class World
     World();
     virtual void update();
     virtual void draw();
+    bool hit(std::string tag, Object* o);
 
     private:
     void create(Object* o);
