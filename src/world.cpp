@@ -45,7 +45,7 @@ void World::destroy(Object *o)
         if (entityList[i] ==  o)
         {
             o->unload();
-            free(entityList[i]);
+            MemFree(entityList[i]);
             entityList.erase(entityList.begin() + i);
         }
     }
@@ -121,7 +121,7 @@ bool World::hit(std::string tag, Object* o)
     {
         if (entityList[i] == o)
         {
-            
+               
         }
         else
         {
