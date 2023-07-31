@@ -105,17 +105,17 @@ void Object::drawDebug()
 
     if (collide)
     {
-        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y}, 3.0f, RED);
-        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x, (float)y + hitbox.offset.y + hitbox.size.y}, 3.0f, RED);
-        DrawLineEx({(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y + hitbox.size.y}, 3.0f, RED);
-        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y + hitbox.size.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y + hitbox.size.y}, 3.0f, RED);
+        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y}, 1.0f, RED);
+        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x, (float)y + hitbox.offset.y + hitbox.size.y}, 1.0f, RED);
+        DrawLineEx({(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y + hitbox.size.y}, 1.0f, RED);
+        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y + hitbox.size.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y + hitbox.size.y}, 1.0f, RED);
     }
     else
     {
-        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y}, 3.0f, GREEN);
-        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x, (float)y + hitbox.offset.y + hitbox.size.y}, 3.0f, GREEN);
-        DrawLineEx({(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y + hitbox.size.y}, 3.0f, GREEN);
-        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y + hitbox.size.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y + hitbox.size.y}, 3.0f, GREEN);
+        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y}, 1.0f, GREEN);
+        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x, (float)y + hitbox.offset.y + hitbox.size.y}, 1.0f, GREEN);
+        DrawLineEx({(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y + hitbox.size.y}, 1.0f, GREEN);
+        DrawLineEx({(float)x + hitbox.offset.x, (float)y + hitbox.offset.y + hitbox.size.y}, {(float)x + hitbox.offset.x + hitbox.size.x, (float)y + hitbox.offset.y + hitbox.size.y}, 1.0f, GREEN);
     }
 
     std::string debugPosition = "x:" + std::to_string(x) + " " + "y:" + std::to_string(y);

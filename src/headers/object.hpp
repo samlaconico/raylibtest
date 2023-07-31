@@ -32,6 +32,8 @@ class Object
     bool active;
     Rectangle hitboxRec;
     std::string direction;
+    int collideDirection;
+    Vector2 velocity;
 
     std::string tag;
     void setTag(std::string);

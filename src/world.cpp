@@ -110,6 +110,11 @@ bool World::collide(Vector2 position, Object* o)
     }
 }
 
+std::string World::getLocationRelative(Vector2 position, Object* o)
+{
+    
+}
+
 bool World::hit(std::string tag, Object* o)
 {
     for (int i = 0; i < entityList.size(); i++)
@@ -153,18 +158,17 @@ void World::update()
             debug = true;
     }
 
-    for (int i = 0; i < entityList.size(); i++)
-    {
-        if (collide({(float)getMouseX(), (float)getMouseY()}, entityList[i]))
-        {
-            entityList[i]->collide = true;
-        }
-        else
-        {
-            entityList[i]->collide = false;
-        }
-        
-    } 
+    // for (int i = 0; i < entityList.size(); i++)
+    // {
+    //     if (collide({(float)getMouseX(), (float)getMouseY()}, entityList[i]))
+    //     {
+    //         entityList[i]->collide = true;
+    //     }
+    //     else
+    //     {
+    //         entityList[i]->collide = false;
+    //     }
+    // } 
 
     if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))
     {

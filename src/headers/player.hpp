@@ -14,6 +14,5 @@ class Player : public Object
     void input();
     void init();
     void drawDebug();
-    Vector2 velocity;
     bool moving;
 };

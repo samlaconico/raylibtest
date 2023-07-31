@@ -3,8 +3,6 @@
 #include "raymath.h"
 #include <string>
 
-Texture2D sprites;
-std::string a = "hello again";
 int sprintSpeed;
 float deltaTime = GetFrameTime();
 
@@ -85,7 +83,11 @@ void Player::update()
     {
         if (world->hit("monster", this))
         {
-            std::cout << "hit by monster" << std::endl;
+            collide = true;
+        }
+        else
+        {
+            collide = false;
         }
 
         input();
@@ -93,7 +95,14 @@ void Player::update()
     }
     else
     {
-        
+        if (world->hit("player", this))
+        {
+            collide = true;
+        }
+        else
+        {
+            collide = false;
+        }
     }
 
     Object::update();
@@ -112,7 +121,7 @@ void Player::input()
         sprintSpeed = 1;
     }
 
-    if (IsKeyDown(KEY_RIGHT))
+    if (IsKeyDown(KEY_RIGHT) && !collide)
     {
         direction = "right";
         moving = true;
