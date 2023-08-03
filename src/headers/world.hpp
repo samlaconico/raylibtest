@@ -7,7 +7,6 @@
 
 class World
 {
-    
     public:
     World();
     virtual void update();
@@ -18,16 +17,17 @@ class World
     Object* collideUp(std::string tag, Object* o);
     Object* collideLeft(std::string tag, Object* o);
     Object* collideDown(std::string tag, Object* o);
-    
-    
-    private:
+    int layers[4];
+    int getMouseX();
+    int getMouseY();
+    bool collide(Vector2 position, Object* o);
     void create(Object* o);
     void updateCamera(Object* player, Camera2D* camera);
     void destroy(Object* o);
-    bool collide(Vector2 position, Object* o);
-    std::string getLocationRelative(Vector2 position, Object*o);
-    int getMouseX();
-    int getMouseY();
+    bool debug;
+    std::vector<Object*> entityList;
+    
+    private:
     //Player createdPlayer = Player(100,100,1);
 
     protected:

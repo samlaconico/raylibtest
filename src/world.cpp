@@ -8,11 +8,10 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
-std::vector<Object*> entityList;
 Camera2D newCamera;
 Player* playerPointer;
+Player* secondPointer;
 
-int layers[] = {0,1,2};
 bool debug;
 
 //NO IDEA WHY THIS DOESN'T WORK 
@@ -20,7 +19,13 @@ bool debug;
 
 World::World()
 {
+    layers[0] = 0;
+    layers[1] = 1;
+    layers[2] = 2;
+    layers[3] = 3;
+
     playerPointer = new Player(100, 100, 2);
+    secondPointer = new Player(200, 200, 3);
     
     create(playerPointer);
     playerPointer->setTag("player");
@@ -108,11 +113,6 @@ bool World::collide(Vector2 position, Object* o)
     {
         return false;
     }
-}
-
-std::string World::getLocationRelative(Vector2 position, Object* o)
-{
-    
 }
 
 bool World::collidingDirection(std::string tag, int direction, Object* o)
@@ -265,17 +265,12 @@ bool World::hit(std::string tag, Object* o)
 
 void World::update()
 {
-    updateCamera(entityList[0], &newCamera);
-
-    for (int i = 0; i < entityList.size(); i++)
-    {
-        entityList[i]->update();
-    }
-
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        create(new Player(((GetMouseX()-newCamera.offset.x)/newCamera.zoom) + newCamera.target.x - 32, 
-                        (((GetMouseY()-newCamera.offset.y))/newCamera.zoom) + newCamera.target.y - 32, 1));
+        Player* o = new Player(((GetMouseX()-newCamera.offset.x)/newCamera.zoom) + newCamera.target.x - 32, 
+                        (((GetMouseY()-newCamera.offset.y))/newCamera.zoom) + newCamera.target.y - 32, 1);
+        o->world = this;
+        create(o);
     }
 
     if (IsKeyPressed(KEY_D))
@@ -285,6 +280,8 @@ void World::update()
         else
             debug = true;
     }
+
+    std::cout << entityList.size() << std::endl;
 
     // for (int i = 0; i < entityList.size(); i++)
     // {
@@ -317,6 +314,13 @@ void World::update()
             } 
         }
     }
+
+    updateCamera(entityList[0], &newCamera);
+
+    for (int i = 0; i < entityList.size(); i++)
+    {
+        entityList[i]->update();
+    }
 }
 
 void World::draw()
@@ -330,7 +334,7 @@ void World::draw()
 
     for (int i = 0; i < sizeof(layers)/sizeof(int); i++)
     {
-        for (int j= 0; j < entityList.size(); j++)
+        for (int j = 0; j < entityList.size(); j++)
         {
             if (entityList[j]->layer == i)
                 entityList[j]->draw();
