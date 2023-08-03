@@ -90,8 +90,9 @@ void Player::update()
             collide = false;
         }
 
-        input();
         
+        collision();
+        input();
     }
     else
     {
@@ -121,7 +122,7 @@ void Player::input()
         sprintSpeed = 1;
     }
 
-    if (IsKeyDown(KEY_RIGHT) && !collide)
+    if (IsKeyDown(KEY_RIGHT))
     {
         direction = "right";
         moving = true;
@@ -209,6 +210,33 @@ void Player::draw()
     }
 
     Object::draw();
+}
+
+void Player::collision()
+{
+    if (world->collideRight("monster", this) != NULL)
+    {
+        Object* o = world->collideRight("monster", this);
+        x = o->hitboxRec.x - hitboxRec.width;
+    }
+
+    if (world->collideLeft("monster", this) != NULL)
+    {
+        Object* o = world->collideLeft("monster", this);
+        x = o->hitboxRec.x + o->hitboxRec.width;
+    }
+
+    if (world->collideUp("monster", this) != NULL)
+    {
+        Object* o = world->collideUp("monster", this);
+        y = o->hitboxRec.y + o->hitboxRec.height;
+    }
+
+    if (world->collideDown("monster", this) != NULL)
+    {
+        Object* o = world->collideDown("monster", this);
+        y = o->hitboxRec.y - hitboxRec.height;
+    }
 }
 
 void Player::drawDebug()

@@ -34,6 +34,7 @@ class Object
     std::string direction;
     int collideDirection;
     Vector2 velocity;
+    float top, bottom, left, right;
 
     std::string tag;
     void setTag(std::string);
@@ -42,6 +43,7 @@ class Object
     virtual void draw();
     virtual void drawDebug();
     virtual void unload();
+    virtual void collision();
     void addAnimation(int frames[], int speed, int frameCount, std::string name );
     void play(std::string name);
     void setFrameSpeedMultiplier(int multiplier);

@@ -14,5 +14,6 @@ class Player : public Object
     void input();
     void init();
     void drawDebug();
+    void collision();
     bool moving;
 };

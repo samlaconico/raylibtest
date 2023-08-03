@@ -12,6 +12,10 @@ Object::Object()
     currentFrame = 0;
     frameRec = { 0.0f, 0.0f, 32, 32};
     frameAmount = 0;
+    top = hitboxRec.y;
+    bottom = hitboxRec.y + hitboxRec.height;
+    left = hitboxRec.x;
+    right = hitboxRec.x + hitboxRec.width;
 }
 
 void Object::update()
@@ -133,4 +137,9 @@ void Object::setTag(std::string string)
 void Object::unload()
 {
     UnloadTexture(spritesheet);
+}
+
+void Object::collision()
+{
+
 }

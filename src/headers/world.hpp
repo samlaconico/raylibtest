@@ -3,15 +3,23 @@
 #include "raylib.h"
 #include "object.hpp"
 #include "player.hpp"
+#include <vector>
 
 class World
 {
+    
     public:
     World();
     virtual void update();
     virtual void draw();
     bool hit(std::string tag, Object* o);
-
+    bool collidingDirection(std::string tag, int direction, Object* o);
+    Object* collideRight(std::string tag, Object* o);
+    Object* collideUp(std::string tag, Object* o);
+    Object* collideLeft(std::string tag, Object* o);
+    Object* collideDown(std::string tag, Object* o);
+    
+    
     private:
     void create(Object* o);
     void updateCamera(Object* player, Camera2D* camera);
@@ -21,4 +29,6 @@ class World
     int getMouseX();
     int getMouseY();
     //Player createdPlayer = Player(100,100,1);
+
+    protected:
 };

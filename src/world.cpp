@@ -115,6 +115,134 @@ std::string World::getLocationRelative(Vector2 position, Object* o)
     
 }
 
+bool World::collidingDirection(std::string tag, int direction, Object* o)
+{
+    for (int i = 0; i < entityList.size(); i++)
+    {
+        if (entityList[i] == o)
+        {
+               
+        }
+        else
+        {
+            if (CheckCollisionRecs(entityList[i]->hitboxRec, {o->hitboxRec.x + o->velocity.x, o->hitboxRec.y + o->velocity.y, o->hitboxRec.width, o->hitboxRec.height}) && entityList[i]->tag == tag)
+            {
+                
+            }
+        }
+    }
+
+    return false;
+}
+
+Object* World::collideRight(std::string tag, Object* o)
+{
+    for (int i = 0; i < entityList.size(); i++)
+    {
+        if (entityList[i] == o)
+        {
+               
+        }
+        else
+        {
+            if (CheckCollisionRecs(entityList[i]->hitboxRec, o->hitboxRec) && entityList[i]->tag == tag)
+            {
+                if (entityList[i]->hitboxRec.x >= o->hitboxRec.x + o->hitboxRec.width - o->velocity.x)
+                {
+                    return entityList[i];
+                }
+                else
+                {
+                    return NULL;
+                }
+            }
+        }
+    }
+
+    return NULL;
+}
+
+Object* World::collideUp(std::string tag, Object* o)
+{
+    for (int i = 0; i < entityList.size(); i++)
+    {
+        if (entityList[i] == o)
+        {
+               
+        }
+        else
+        {
+            if (CheckCollisionRecs(entityList[i]->hitboxRec, o->hitboxRec) && entityList[i]->tag == tag)
+            {
+                if (entityList[i]->hitboxRec.y + entityList[i]->hitboxRec.height <= o->hitboxRec.y - o->velocity.y)
+                {
+                    return entityList[i];
+                }
+                else
+                {
+                    return NULL;
+                }
+            }
+        }
+    }
+
+    return NULL;
+}
+
+Object* World::collideDown(std::string tag, Object* o)
+{
+    for (int i = 0; i < entityList.size(); i++)
+    {
+        if (entityList[i] == o)
+        {
+               
+        }
+        else
+        {
+            if (CheckCollisionRecs(entityList[i]->hitboxRec, o->hitboxRec) && entityList[i]->tag == tag)
+            {
+                if (entityList[i]->hitboxRec.y >= o->hitboxRec.y + o->hitboxRec.height - o->velocity.y)
+                {
+                    return entityList[i];
+                }
+                else
+                {
+                    return NULL;
+                }
+            }
+        }
+    }
+
+    return NULL;
+}
+
+Object* World::collideLeft(std::string tag, Object* o)
+{
+    for (int i = 0; i < entityList.size(); i++)
+    {
+        if (entityList[i] == o)
+        {
+               
+        }
+        else
+        {
+            if (CheckCollisionRecs(entityList[i]->hitboxRec, o->hitboxRec) && entityList[i]->tag == tag)
+            {
+                if (entityList[i]->hitboxRec.x + entityList[i]->hitboxRec.width <= o->hitboxRec.x - o->velocity.x)
+                {
+                    return entityList[i];
+                }
+                else
+                {
+                    return NULL;
+                }
+            }
+        }
+    }
+
+    return NULL;
+}
+
 bool World::hit(std::string tag, Object* o)
 {
     for (int i = 0; i < entityList.size(); i++)
@@ -206,14 +334,8 @@ void World::draw()
         {
             if (entityList[j]->layer == i)
                 entityList[j]->draw();
-        }
-    }
-
-    if (debug)
-    {
-        for (int i = 0; i < sizeof(layers)/sizeof(int); i++)
-        {
-            for (int j= 0; j < entityList.size(); j++)
+            
+            if (debug)
             {
                 if (entityList[j]->layer == i)
                     entityList[j]->drawDebug();
