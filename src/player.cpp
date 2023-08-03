@@ -4,7 +4,6 @@
 #include <string>
 
 int sprintSpeed;
-float deltaTime = GetFrameTime();
 
 Player::Player(int x, int y, int layer)
 {
@@ -72,10 +71,9 @@ void Player::init()
 void Player::update()
 {
     Vector2Normalize(velocity);
-    
+
     x += velocity.x;
     y += velocity.y;
-
 
     hitboxRec = {(x + hitbox.offset.x), (y + hitbox.offset.y), hitbox.size.x,hitbox.size.y};
     
@@ -111,6 +109,7 @@ void Player::update()
 
 void Player::input()
 {   
+    
     if (IsKeyDown(KEY_SPACE))
     {
         setFrameSpeedMultiplier(3);

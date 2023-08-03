@@ -16,6 +16,7 @@ int main(void)
     
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "TOUHOU GAME");
     SetTargetFPS(60);
+    SetTraceLogLevel(0);
     World geimuWorld = World();
 
     while (!WindowShouldClose())    // Detect window close button or ESC key
