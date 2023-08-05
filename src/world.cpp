@@ -25,8 +25,37 @@ World::World()
     layers[2] = 2;
     layers[3] = 3;
 
-    playerPointer = new Player(100, 100, 2);
-    secondPointer = new Player(200, 200, 3);
+    Image level = LoadImage("assets/map.png");
+
+    Vector3 a = ColorToHSV(GetImageColor(level, 1, 2));
+    std::cout << a.x << std::endl;
+    std::cout << a.y << std::endl;
+    std::cout << a.z << std::endl;
+    
+    for (int i = 0; i < 100; i++)
+    {
+        for (int g = 0; g < 100; g++)
+        {
+            if (std::round(ColorToHSV(GetImageColor(level, i, g)).x) == 0
+                && std::round(ColorToHSV(GetImageColor(level, i, g)).y * 100) == 71
+                && std::round(ColorToHSV(GetImageColor(level, i, g)).z * 100) == 67)
+            {
+                std::cout << "cum again" << std::endl;
+                Player* o = new Player(i * 32, g * 32 , 0);
+                playerPointer = o;
+            }
+            
+            if (std::round(ColorToHSV(GetImageColor(level, i, g)).x) == 190
+                && std::round(ColorToHSV(GetImageColor(level, i, g)).y * 100) == 58
+                && std::round(ColorToHSV(GetImageColor(level, i, g)).z * 100) == 89)
+            {
+                std::cout << "cum" << std::endl;
+                Player* o = new Player(i * 32, g * 32 , 0);
+                o->world = this;
+                create(o);
+            }
+        }
+    }
     
     create(playerPointer);
     playerPointer->setTag("player");
@@ -38,14 +67,14 @@ World::World()
     newCamera.offset = (Vector2){ SCREEN_WIDTH/2.0f * SCREEN_MULTIPLIER, SCREEN_HEIGHT/2.0f * SCREEN_MULTIPLIER};
     newCamera.rotation = 0.0f;
 
-    for (int i = 0; i < (SCREEN_WIDTH/32); i++)
-    {
-        std::cout << i << std::endl;
-        Player* o = new Player(i * 32, 0 , 0);
-        o->world = this;
-        create(o);
+    // for (int i = 0; i < (SCREEN_WIDTH/32); i++)
+    // {
+    //     std::cout << i << std::endl;
+    //     Player* o = new Player(i * 32, 0 , 0);
+    //     o->world = this;
+    //     create(o);
 
-    }
+    // }
     
 }
 
@@ -95,7 +124,7 @@ void World::updateCamera(Object* player, Camera2D* camera)
         camera->target = Vector2Add(camera->target, Vector2Scale(diff, speed*deltaTime/length));
     }
 
-    if (camera->zoom > 3.0f) camera->zoom = 3.0f;
+    if (camera->zoom > 6.0f) camera->zoom = 6.0f;
     else if (camera->zoom < 0.25f) camera->zoom = 0.25f;
 
     camera->zoom += ((float)GetMouseWheelMove()*0.05f);
@@ -292,8 +321,6 @@ void World::update()
             debug = true;
     }
 
-    std::cout << entityList.size() << std::endl;
-
     // for (int i = 0; i < entityList.size(); i++)
     // {
     //     if (collide({(float)getMouseX(), (float)getMouseY()}, entityList[i]))
@@ -326,7 +353,7 @@ void World::update()
         }
     }
 
-    updateCamera(entityList[0], &newCamera);
+    updateCamera(playerPointer, &newCamera);
 
     for (int i = 0; i < entityList.size(); i++)
     {

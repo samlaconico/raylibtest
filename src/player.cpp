@@ -17,6 +17,7 @@ Player::Player(int x, int y, int layer)
 void Player::init()
 {
     spritesheet = LoadTexture("assets/sprites.png");
+    
     spriteTexture = spritesheet;
     spriteSize = 32;
     spriteSizeMultiplier = 1;
@@ -46,8 +47,7 @@ void Player::init()
     hitbox.size = {32, 32};
     hitbox.offset = {0, 0};
     
-    int rand = GetRandomValue(1, 4);
-
+    int rand = 2;
     switch(rand)
     {
         case 1:
@@ -252,25 +252,29 @@ void Player::collision()
     if (world->collideRight("monster", this) != NULL)
     {
         Object* o = world->collideRight("monster", this);
-        x = o->hitboxRec.x - hitboxRec.width +  - hitbox.offset.x;
+        x = o->hitboxRec.x - hitboxRec.width - hitbox.offset.x;
+        if (velocity.x > 0) velocity.x = 0;
     }
 
     if (world->collideLeft("monster", this) != NULL)
     {
         Object* o = world->collideLeft("monster", this);
         x = o->hitboxRec.x + o->hitboxRec.width - hitbox.offset.x;
+        if (velocity.x < 0) velocity.x = 0;
     }
 
     if (world->collideUp("monster", this) != NULL)
     {
         Object* o = world->collideUp("monster", this);
         y = o->hitboxRec.y + o->hitboxRec.height - hitbox.offset.y;
+        if (velocity.y < 0) velocity.y = 0;
     }
 
     if (world->collideDown("monster", this) != NULL)
     {
         Object* o = world->collideDown("monster", this);
         y = o->hitboxRec.y - hitboxRec.height - hitbox.offset.y;
+        if (velocity.y > 0) velocity.y = 0;
     }
 }
 
