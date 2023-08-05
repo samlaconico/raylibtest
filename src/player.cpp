@@ -43,8 +43,8 @@ void Player::init()
     addAnimation(idleDown, 0, 1, "idleDown");
     play("idleDown");
     
-    hitbox.size = {64, 64};
-    hitbox.offset = {0, 0};
+    hitbox.size = {32, 32};
+    hitbox.offset = {16, 16};
     
     int rand = GetRandomValue(1, 4);
 
@@ -75,7 +75,7 @@ void Player::update()
     x += velocity.x;
     y += velocity.y;
 
-    hitboxRec = {(x + hitbox.offset.x), (y + hitbox.offset.y), hitbox.size.x,hitbox.size.y};
+    hitboxRec = {(x + hitbox.offset.x), (y + hitbox.offset.y), hitbox.size.x, hitbox.size.y};
     
     if (tag == "player")
     {
@@ -213,28 +213,64 @@ void Player::draw()
 
 void Player::collision()
 {
+    if (world->collideRight("npc", this) != NULL)
+    {
+        Object* o = world->collideRight("npc", this);
+        if (velocity.x > 0)
+        {
+            o->x = hitboxRec.x + hitboxRec.width - hitbox.offset.x;
+        }
+    }
+
+    if (world->collideLeft("npc", this) != NULL)
+    {
+        Object* o = world->collideLeft("npc", this);
+        if (velocity.x < 0)
+        {
+            o->x = hitboxRec.x - o->hitboxRec.width - o->hitbox.offset.x;
+        }
+    }
+
+    if (world->collideUp("npc", this) != NULL)
+    {
+        Object* o = world->collideUp("npc", this);
+        if (velocity.y < 0)
+        {
+            o->y = hitboxRec.y - o->hitboxRec.height - hitbox.offset.y;
+        }
+    }
+
+    if (world->collideDown("npc", this) != NULL)
+    {
+        Object* o = world->collideDown("npc", this);
+        if (velocity.y > 0)
+        {
+            o->y = hitboxRec.y + hitboxRec.height - hitbox.offset.y;
+        }
+    }
+
     if (world->collideRight("monster", this) != NULL)
     {
         Object* o = world->collideRight("monster", this);
-        x = o->hitboxRec.x - hitboxRec.width;
+        x = o->hitboxRec.x - hitboxRec.width +  - hitbox.offset.x;
     }
 
     if (world->collideLeft("monster", this) != NULL)
     {
         Object* o = world->collideLeft("monster", this);
-        x = o->hitboxRec.x + o->hitboxRec.width;
+        x = o->hitboxRec.x + o->hitboxRec.width - hitbox.offset.x;
     }
 
     if (world->collideUp("monster", this) != NULL)
     {
         Object* o = world->collideUp("monster", this);
-        y = o->hitboxRec.y + o->hitboxRec.height;
+        y = o->hitboxRec.y + o->hitboxRec.height - hitbox.offset.y;
     }
 
     if (world->collideDown("monster", this) != NULL)
     {
         Object* o = world->collideDown("monster", this);
-        y = o->hitboxRec.y - hitboxRec.height;
+        y = o->hitboxRec.y - hitboxRec.height - hitbox.offset.y;
     }
 }
 
