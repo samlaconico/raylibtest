@@ -213,7 +213,7 @@ void Player::draw()
 
 void Player::collision()
 {
-    while (world->collideRight("npc", this) != NULL)
+    if (world->collideRight("npc", this) != NULL)
     {
         Object* o = world->collideRight("npc", this);
         if (velocity.x > 0)
