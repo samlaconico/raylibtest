@@ -19,7 +19,7 @@ void Player::init()
     spritesheet = LoadTexture("assets/sprites.png");
     spriteTexture = spritesheet;
     spriteSize = 32;
-    spriteSizeMultiplier = 2;
+    spriteSizeMultiplier = 1;
     objectSize = spriteSize * spriteSizeMultiplier;
 
     int walkLeft[] = {12,13,14,13};
@@ -44,7 +44,7 @@ void Player::init()
     play("idleDown");
     
     hitbox.size = {32, 32};
-    hitbox.offset = {16, 16};
+    hitbox.offset = {0, 0};
     
     int rand = GetRandomValue(1, 4);
 
@@ -213,12 +213,12 @@ void Player::draw()
 
 void Player::collision()
 {
-    if (world->collideRight("npc", this) != NULL)
+    while (world->collideRight("npc", this) != NULL)
     {
         Object* o = world->collideRight("npc", this);
         if (velocity.x > 0)
         {
-            o->x = hitboxRec.x + hitboxRec.width - hitbox.offset.x;
+            o->x = hitboxRec.x + hitboxRec.width - o->hitbox.offset.x;
         }
     }
 
@@ -236,7 +236,7 @@ void Player::collision()
         Object* o = world->collideUp("npc", this);
         if (velocity.y < 0)
         {
-            o->y = hitboxRec.y - o->hitboxRec.height - hitbox.offset.y;
+            o->y = hitboxRec.y - o->hitboxRec.height - o->hitbox.offset.y;
         }
     }
 
@@ -245,7 +245,7 @@ void Player::collision()
         Object* o = world->collideDown("npc", this);
         if (velocity.y > 0)
         {
-            o->y = hitboxRec.y + hitboxRec.height - hitbox.offset.y;
+            o->y = hitboxRec.y + hitboxRec.height - o->hitbox.offset.y;
         }
     }
 

@@ -6,15 +6,16 @@
 #include <iostream>
 #include "headers/world.hpp"
 
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 360
+#define SCREEN_MULTIPLIER 3
 
 std::vector<World*> worlds;
 
 int main(void)
 {
     
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "TOUHOU GAME");
+    InitWindow(SCREEN_WIDTH * SCREEN_MULTIPLIER, SCREEN_HEIGHT * SCREEN_MULTIPLIER, "TOUHOU GAME");
     SetTargetFPS(60);
     SetTraceLogLevel(0);
     World geimuWorld = World();

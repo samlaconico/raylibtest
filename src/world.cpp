@@ -5,8 +5,9 @@
 #include <vector>
 #include "headers/world.hpp"
 
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 360
+#define SCREEN_MULTIPLIER 3
 
 Camera2D newCamera;
 Player* playerPointer;
@@ -33,9 +34,19 @@ World::World()
 
     newCamera = Camera2D();
     newCamera.target = {(float)playerPointer->x, (float)playerPointer->y};
-    newCamera.zoom = 1;
-    newCamera.offset = (Vector2){ SCREEN_WIDTH/2.0f, SCREEN_HEIGHT/2.0f};
+    newCamera.zoom = SCREEN_MULTIPLIER;
+    newCamera.offset = (Vector2){ SCREEN_WIDTH/2.0f * SCREEN_MULTIPLIER, SCREEN_HEIGHT/2.0f * SCREEN_MULTIPLIER};
     newCamera.rotation = 0.0f;
+
+    for (int i = 0; i < (SCREEN_WIDTH/32); i++)
+    {
+        std::cout << i << std::endl;
+        Player* o = new Player(i * 32, 0 , 0);
+        o->world = this;
+        create(o);
+
+    }
+    
 }
 
 void World::create(Object* o)
@@ -74,7 +85,7 @@ void World::updateCamera(Object* player, Camera2D* camera)
     static float fractionSpeed = 3.0f;
     float deltaTime = GetFrameTime();
 
-    camera->offset = (Vector2){ SCREEN_WIDTH/2.0f, SCREEN_HEIGHT/2.0f };
+    camera->offset = (Vector2){ SCREEN_WIDTH/2.0f * SCREEN_MULTIPLIER, SCREEN_HEIGHT/2.0f * SCREEN_MULTIPLIER};
     Vector2 diff = Vector2Subtract({(float)player->x + 32, (float)player->y + 32}, camera->target);
     float length = Vector2Length(diff);
 
@@ -267,8 +278,8 @@ void World::update()
 {
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        Player* o = new Player(((GetMouseX()-newCamera.offset.x)/newCamera.zoom) + newCamera.target.x - 32, 
-                        (((GetMouseY()-newCamera.offset.y))/newCamera.zoom) + newCamera.target.y - 32, 1);
+        Player* o = new Player(((GetMouseX()-newCamera.offset.x)/newCamera.zoom) + newCamera.target.x - 16, 
+                        (((GetMouseY()-newCamera.offset.y))/newCamera.zoom) + newCamera.target.y - 16, 1);
         o->world = this;
         create(o);
     }
