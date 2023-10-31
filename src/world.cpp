@@ -10,13 +10,20 @@
 #define SCREEN_MULTIPLIER 3
 
 Camera2D newCamera;
-Player* playerPointer;
-Player* secondPointer;
+Player *playerPointer;
+Player *secondPointer;
 
 bool debug;
 
-//NO IDEA WHY THIS DOESN'T WORK 
-//Player newPlayer = Player(100, 100, 1);
+// NO IDEA WHY THIS DOESN'T WORK
+// Player newPlayer = Player(100, 100, 1);
+
+struct tile
+{
+    float x, y;
+};
+
+std::vector<tile *> tileList;
 
 World::World()
 {
@@ -31,40 +38,36 @@ World::World()
     std::cout << a.x << std::endl;
     std::cout << a.y << std::endl;
     std::cout << a.z << std::endl;
-    
+
     for (int i = 0; i < 100; i++)
     {
         for (int g = 0; g < 100; g++)
         {
-            if (std::round(ColorToHSV(GetImageColor(level, i, g)).x) == 0
-                && std::round(ColorToHSV(GetImageColor(level, i, g)).y * 100) == 71
-                && std::round(ColorToHSV(GetImageColor(level, i, g)).z * 100) == 67)
+            if (std::round(ColorToHSV(GetImageColor(level, i, g)).x) == 0 && std::round(ColorToHSV(GetImageColor(level, i, g)).y * 100) == 71 && std::round(ColorToHSV(GetImageColor(level, i, g)).z * 100) == 67)
             {
-                std::cout << "cum again" << std::endl;
-                Player* o = new Player(i * 32, g * 32 , 0);
+                Player *o = new Player(i * 32, g * 32, 0);
+                o->spriteSizeMultiplier = 1;
                 playerPointer = o;
             }
-            
-            if (std::round(ColorToHSV(GetImageColor(level, i, g)).x) == 190
-                && std::round(ColorToHSV(GetImageColor(level, i, g)).y * 100) == 58
-                && std::round(ColorToHSV(GetImageColor(level, i, g)).z * 100) == 89)
+
+            if (std::round(ColorToHSV(GetImageColor(level, i, g)).x) == 190 && std::round(ColorToHSV(GetImageColor(level, i, g)).y * 100) == 58 && std::round(ColorToHSV(GetImageColor(level, i, g)).z * 100) == 89)
             {
-                std::cout << "cum" << std::endl;
-                Player* o = new Player(i * 32, g * 32 , 0);
-                o->world = this;
-                create(o);
+                tile *a = new tile;
+                a->x = i * 32;
+                a->y = g * 32;
+                tileList.push_back(a);
             }
         }
     }
-    
+
     create(playerPointer);
     playerPointer->setTag("player");
     playerPointer->world = this;
 
     newCamera = Camera2D();
-    newCamera.target = {(float)playerPointer->x, (float)playerPointer->y};
-    newCamera.zoom = SCREEN_MULTIPLIER;
-    newCamera.offset = (Vector2){ SCREEN_WIDTH/2.0f * SCREEN_MULTIPLIER, SCREEN_HEIGHT/2.0f * SCREEN_MULTIPLIER};
+    // newCamera.target = {(float)playerPointer->x, (float)playerPointer->y};
+    newCamera.zoom = 2;
+    // newCamera.offset = (Vector2){ SCREEN_WIDTH/2.0f * SCREEN_MULTIPLIER, SCREEN_HEIGHT/2.0f * SCREEN_MULTIPLIER};
     newCamera.rotation = 0.0f;
 
     // for (int i = 0; i < (SCREEN_WIDTH/32); i++)
@@ -75,10 +78,9 @@ World::World()
     //     create(o);
 
     // }
-    
 }
 
-void World::create(Object* o)
+void World::create(Object *o)
 {
     entityList.push_back(o);
 }
@@ -87,7 +89,7 @@ void World::destroy(Object *o)
 {
     for (int i = 0; i <= entityList.size(); i++)
     {
-        if (entityList[i] ==  o)
+        if (entityList[i] == o)
         {
             o->unload();
             MemFree(entityList[i]);
@@ -98,45 +100,45 @@ void World::destroy(Object *o)
 
 int World::getMouseX()
 {
-    return (((GetMouseX()-newCamera.offset.x)/newCamera.zoom) + newCamera.target.x);
+    return (((GetMouseX() - newCamera.offset.x) / newCamera.zoom) + newCamera.target.x);
 }
 
 int World::getMouseY()
 {
-    return (((GetMouseY()-newCamera.offset.y)/newCamera.zoom) + newCamera.target.y);
+    return (((GetMouseY() - newCamera.offset.y) / newCamera.zoom) + newCamera.target.y);
 }
 
-
-void World::updateCamera(Object* player, Camera2D* camera)
+void World::updateCamera(Object *player, Camera2D *camera)
 {
     static float minSpeed = 30;
     static float minEffectLength = 10;
     static float fractionSpeed = 3.0f;
     float deltaTime = GetFrameTime();
 
-    camera->offset = (Vector2){ SCREEN_WIDTH/2.0f * SCREEN_MULTIPLIER, SCREEN_HEIGHT/2.0f * SCREEN_MULTIPLIER};
+    camera->offset = (Vector2){SCREEN_WIDTH / 2.0f * SCREEN_MULTIPLIER, SCREEN_HEIGHT / 2.0f * SCREEN_MULTIPLIER};
     Vector2 diff = Vector2Subtract({(float)player->x + 32, (float)player->y + 32}, camera->target);
     float length = Vector2Length(diff);
 
     if (length > minEffectLength)
     {
-        float speed = fmaxf(fractionSpeed*length, minSpeed);
-        camera->target = Vector2Add(camera->target, Vector2Scale(diff, speed*deltaTime/length));
+        float speed = fmaxf(fractionSpeed * length, minSpeed);
+        camera->target = Vector2Add(camera->target, Vector2Scale(diff, speed * deltaTime / length));
     }
 
-    if (camera->zoom > 6.0f) camera->zoom = 6.0f;
-    else if (camera->zoom < 0.25f) camera->zoom = 0.25f;
+    if (camera->zoom > 6.0f)
+        camera->zoom = 6.0f;
+    else if (camera->zoom < 0.25f)
+        camera->zoom = 0.25f;
 
-    camera->zoom += ((float)GetMouseWheelMove()*0.05f);
+    camera->zoom += ((float)GetMouseWheelMove() * 0.05f);
 
     if (IsKeyPressed(KEY_R))
     {
         camera->zoom = 1.0f;
     }
-
 }
 
-bool World::collide(Vector2 position, Object* o)
+bool World::collide(Vector2 position, Object *o)
 {
     if (position.x >= (o->x + o->hitbox.offset.x) && position.x <= (o->x + o->hitbox.offset.x + o->hitbox.size.x))
     {
@@ -155,19 +157,17 @@ bool World::collide(Vector2 position, Object* o)
     }
 }
 
-bool World::collidingDirection(std::string tag, int direction, Object* o)
+bool World::collidingDirection(std::string tag, int direction, Object *o)
 {
     for (int i = 0; i < entityList.size(); i++)
     {
         if (entityList[i] == o)
         {
-               
         }
         else
         {
             if (CheckCollisionRecs(entityList[i]->hitboxRec, {o->hitboxRec.x + o->velocity.x, o->hitboxRec.y + o->velocity.y, o->hitboxRec.width, o->hitboxRec.height}) && entityList[i]->tag == tag)
             {
-                
             }
         }
     }
@@ -175,13 +175,12 @@ bool World::collidingDirection(std::string tag, int direction, Object* o)
     return false;
 }
 
-Object* World::collideRight(std::string tag, Object* o)
+Object *World::collideRight(std::string tag, Object *o)
 {
     for (int i = 0; i < entityList.size(); i++)
     {
         if (entityList[i] == o)
         {
-               
         }
         else
         {
@@ -202,13 +201,12 @@ Object* World::collideRight(std::string tag, Object* o)
     return NULL;
 }
 
-Object* World::collideUp(std::string tag, Object* o)
+Object *World::collideUp(std::string tag, Object *o)
 {
     for (int i = 0; i < entityList.size(); i++)
     {
         if (entityList[i] == o)
         {
-               
         }
         else
         {
@@ -229,13 +227,12 @@ Object* World::collideUp(std::string tag, Object* o)
     return NULL;
 }
 
-Object* World::collideDown(std::string tag, Object* o)
+Object *World::collideDown(std::string tag, Object *o)
 {
     for (int i = 0; i < entityList.size(); i++)
     {
         if (entityList[i] == o)
         {
-               
         }
         else
         {
@@ -256,13 +253,12 @@ Object* World::collideDown(std::string tag, Object* o)
     return NULL;
 }
 
-Object* World::collideLeft(std::string tag, Object* o)
+Object *World::collideLeft(std::string tag, Object *o)
 {
     for (int i = 0; i < entityList.size(); i++)
     {
         if (entityList[i] == o)
         {
-               
         }
         else
         {
@@ -283,13 +279,12 @@ Object* World::collideLeft(std::string tag, Object* o)
     return NULL;
 }
 
-bool World::hit(std::string tag, Object* o)
+bool World::hit(std::string tag, Object *o)
 {
     for (int i = 0; i < entityList.size(); i++)
     {
         if (entityList[i] == o)
         {
-               
         }
         else
         {
@@ -307,8 +302,8 @@ void World::update()
 {
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        Player* o = new Player(((GetMouseX()-newCamera.offset.x)/newCamera.zoom) + newCamera.target.x - 16, 
-                        (((GetMouseY()-newCamera.offset.y))/newCamera.zoom) + newCamera.target.y - 16, 1);
+        Player *o = new Player(((GetMouseX() - newCamera.offset.x) / newCamera.zoom) + newCamera.target.x - 16,
+                               (((GetMouseY() - newCamera.offset.y)) / newCamera.zoom) + newCamera.target.y - 16, 1);
         o->world = this;
         create(o);
     }
@@ -331,11 +326,11 @@ void World::update()
     //     {
     //         entityList[i]->collide = false;
     //     }
-    // } 
+    // }
 
     if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))
     {
-        //destroy(entityList.back());
+        // destroy(entityList.back());
 
         if (entityList.size() > 0)
         {
@@ -347,17 +342,16 @@ void World::update()
                 }
                 else
                 {
-
                 }
-            } 
+            }
         }
     }
 
-    updateCamera(playerPointer, &newCamera);
+    // updateCamera(playerPointer, &newCamera);
 
-    for (int i = 0; i < entityList.size(); i++)
+    for (auto &o : entityList)
     {
-        entityList[i]->update();
+        o->update();
     }
 }
 
@@ -369,14 +363,13 @@ void World::draw()
     DrawText("TO BE MADE", 100, 300, 100, GRAY);
     DrawText("TO BE MADE", 100, 500, 100, GRAY);
 
-
-    for (int i = 0; i < sizeof(layers)/sizeof(int); i++)
+    for (int i = 0; i < sizeof(layers) / sizeof(int); i++)
     {
         for (int j = 0; j < entityList.size(); j++)
         {
             if (entityList[j]->layer == i)
                 entityList[j]->draw();
-            
+
             if (debug)
             {
                 if (entityList[j]->layer == i)
@@ -385,10 +378,13 @@ void World::draw()
         }
     }
 
+    for (auto tile : tileList)
+    {
+        DrawRectangle(tile->x, tile->y, 32, 32, RED);
+    }
+
     DrawText("TO BE MADE", 100, 200, 100, GRAY);
     DrawText("TO BE MADE", 100, 400, 100, GRAY);
-
-    
 
     EndMode2D();
 }

@@ -17,16 +17,16 @@ Player::Player(int x, int y, int layer)
 void Player::init()
 {
     spritesheet = LoadTexture("assets/sprites.png");
-    
+
     spriteTexture = spritesheet;
     spriteSize = 32;
     spriteSizeMultiplier = 1;
     objectSize = spriteSize * spriteSizeMultiplier;
 
-    int walkLeft[] = {12,13,14,13};
-    int walkRight[] = {24,25,26,25};
-    int walkUp[] = {36,37,38,37};
-    int walkDown[] = {0,1,2,1};
+    int walkLeft[] = {12, 13, 14, 13};
+    int walkRight[] = {24, 25, 26, 25};
+    int walkUp[] = {36, 37, 38, 37};
+    int walkDown[] = {0, 1, 2, 1};
 
     int idleLeft[] = {13};
     int idleRight[] = {25};
@@ -43,26 +43,26 @@ void Player::init()
     addAnimation(idleUp, 0, 1, "idleUp");
     addAnimation(idleDown, 0, 1, "idleDown");
     play("idleDown");
-    
+
     hitbox.size = {32, 32};
     hitbox.offset = {0, 0};
-    
-    int rand = 2;
-    switch(rand)
+
+    int rand = 4;
+    switch (rand)
     {
-        case 1:
+    case 1:
         tag = "villager";
         break;
 
-        case 2:
+    case 2:
         tag = "monster";
         break;
-        
-        case 3:
+
+    case 3:
         tag = "party";
         break;
 
-        case 4:
+    case 4:
         tag = "npc";
         break;
     }
@@ -76,7 +76,7 @@ void Player::update()
     y += velocity.y;
 
     hitboxRec = {(x + hitbox.offset.x), (y + hitbox.offset.y), hitbox.size.x, hitbox.size.y};
-    
+
     if (tag == "player")
     {
         if (world->hit("monster", this))
@@ -88,7 +88,6 @@ void Player::update()
             collide = false;
         }
 
-        
         collision();
         input();
     }
@@ -108,8 +107,8 @@ void Player::update()
 }
 
 void Player::input()
-{   
-    
+{
+
     if (IsKeyDown(KEY_SPACE))
     {
         setFrameSpeedMultiplier(3);
@@ -126,7 +125,7 @@ void Player::input()
         direction = "right";
         moving = true;
         velocity.x = 3 * sprintSpeed;
-    } 
+    }
     else if (IsKeyDown(KEY_LEFT))
     {
         direction = "left";
@@ -142,7 +141,7 @@ void Player::input()
         direction = "up";
         moving = true;
         velocity.y = -3 * sprintSpeed;
-    } 
+    }
     else if (IsKeyDown(KEY_DOWN))
     {
         direction = "down";
@@ -160,7 +159,7 @@ void Player::input()
     }
 }
 
-void Player::draw() 
+void Player::draw()
 {
     if (moving == true)
     {
@@ -183,8 +182,7 @@ void Player::draw()
         {
             play("walkLeft");
         }
-
-    } 
+    }
     else
     {
         if (direction == "right")
@@ -215,7 +213,7 @@ void Player::collision()
 {
     if (world->collideRight("npc", this) != NULL)
     {
-        Object* o = world->collideRight("npc", this);
+        Object *o = world->collideRight("npc", this);
         if (velocity.x > 0)
         {
             o->x = hitboxRec.x + hitboxRec.width - o->hitbox.offset.x;
@@ -224,7 +222,7 @@ void Player::collision()
 
     if (world->collideLeft("npc", this) != NULL)
     {
-        Object* o = world->collideLeft("npc", this);
+        Object *o = world->collideLeft("npc", this);
         if (velocity.x < 0)
         {
             o->x = hitboxRec.x - o->hitboxRec.width - o->hitbox.offset.x;
@@ -233,7 +231,7 @@ void Player::collision()
 
     if (world->collideUp("npc", this) != NULL)
     {
-        Object* o = world->collideUp("npc", this);
+        Object *o = world->collideUp("npc", this);
         if (velocity.y < 0)
         {
             o->y = hitboxRec.y - o->hitboxRec.height - o->hitbox.offset.y;
@@ -242,7 +240,7 @@ void Player::collision()
 
     if (world->collideDown("npc", this) != NULL)
     {
-        Object* o = world->collideDown("npc", this);
+        Object *o = world->collideDown("npc", this);
         if (velocity.y > 0)
         {
             o->y = hitboxRec.y + hitboxRec.height - o->hitbox.offset.y;
@@ -251,35 +249,38 @@ void Player::collision()
 
     if (world->collideRight("monster", this) != NULL)
     {
-        Object* o = world->collideRight("monster", this);
+        Object *o = world->collideRight("monster", this);
         x = o->hitboxRec.x - hitboxRec.width - hitbox.offset.x;
-        if (velocity.x > 0) velocity.x = 0;
+        if (velocity.x > 0)
+            velocity.x = 0;
     }
 
     if (world->collideLeft("monster", this) != NULL)
     {
-        Object* o = world->collideLeft("monster", this);
+        Object *o = world->collideLeft("monster", this);
         x = o->hitboxRec.x + o->hitboxRec.width - hitbox.offset.x;
-        if (velocity.x < 0) velocity.x = 0;
+        if (velocity.x < 0)
+            velocity.x = 0;
     }
 
     if (world->collideUp("monster", this) != NULL)
     {
-        Object* o = world->collideUp("monster", this);
+        Object *o = world->collideUp("monster", this);
         y = o->hitboxRec.y + o->hitboxRec.height - hitbox.offset.y;
-        if (velocity.y < 0) velocity.y = 0;
+        if (velocity.y < 0)
+            velocity.y = 0;
     }
 
     if (world->collideDown("monster", this) != NULL)
     {
-        Object* o = world->collideDown("monster", this);
+        Object *o = world->collideDown("monster", this);
         y = o->hitboxRec.y - hitboxRec.height - hitbox.offset.y;
-        if (velocity.y > 0) velocity.y = 0;
+        if (velocity.y > 0)
+            velocity.y = 0;
     }
 }
 
 void Player::drawDebug()
-{   
+{
     Object::drawDebug();
 }
-
